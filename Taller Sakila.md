@@ -8,6 +8,8 @@ Insert a record into the 'film' table using dummy values, ensuring referential i
 insert into film (title, description, release_year, language_id, original_language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features, last_update)
 values ('Film', 'This is a dummy film description.', 2024, 1, null, 5, 2.99, 120, 19.99, 'G', 'Trailers', now());
 ```
+![Screenshot (217)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/be890939-9cde-4923-829a-cd8f38053062)
+
 
 ## statement 2
 
@@ -21,6 +23,8 @@ where length > (
     from film
 );
 ```
+![Screenshot (219)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/0e78e8d0-ee23-4703-a8da-a2fa81c056c4)
+
 
 ## statement 3
 
@@ -34,6 +38,8 @@ join rental r on i.inventory_id = r.inventory_id
 where r.return_date is null
 and i.store_id = 1;
 ```
+![Screenshot (220)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/77dc3930-c432-4695-9108-53bd710d9ad0)
+
 
 ## statement 4
 
@@ -56,6 +62,8 @@ and datediff(r.return_date, r.rental_date) > (
 )
 group by f.film_id, f.title;
 ```
+![Screenshot (221)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/4e171f5d-a787-4035-8890-5f11dd74f91d)
+
 
 ## statement 5
 
@@ -68,6 +76,8 @@ join film_actor fa on a.actor_id = fa.actor_id
 group by a.actor_id, a.first_name, a.last_name
 having count(distinct fa.film_id) <= 5;
 ```
+![Screenshot (222)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/151d3d6b-16ea-4ac2-8553-be1a7ded1744)
+
 
 ## statement 6
 
@@ -76,6 +86,8 @@ Which last names do not repeat among different actors?
 ```
 select distinct last_name from actor;
 ```
+![Screenshot (223)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/23b021d5-89bc-4a98-9381-28a7a7ac4982)
+
 
 ## statement 7
 
@@ -94,6 +106,8 @@ group by fc.category_id, c.name
 order by total_revenue desc
 limit 3;
 ```
+![Screenshot (225)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/13cc9682-4fe9-4bb7-9c2e-de76a3eb131e)
+
 
 ## statement 8
 
@@ -119,6 +133,9 @@ from (
 where row_num <= 2
 order by views desc;
 ```
+![Screenshot (219)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/8a10ef4f-5021-48e0-a588-6ef87c4760c3)
+![Screenshot (226)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/e7e5f27a-6ff1-480c-8714-d6e1ec1ea03b)
+
 
 ## statement 9
 
@@ -134,6 +151,8 @@ left join rental r on c.customer_id = r.customer_id
 where co.country = 'united states' and (r.rental_id is null or r.rental_date < date_sub(now(), interval 3 month))
 group by c.customer_id, c.first_name, c.last_name, c.email;
 ```
+![Screenshot (227)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/0a18ee6b-1595-43e0-b1ba-7d07671f80e0)
+
 
 ## statement 10
 
@@ -169,3 +188,4 @@ from (
         r.customer_id
 ) as rental_counts;
 ```
+![Screenshot (228)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/3a09bdf9-ca8b-4c20-a8b8-c34fa7c69559)
