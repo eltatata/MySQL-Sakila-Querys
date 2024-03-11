@@ -114,6 +114,12 @@ limit 3;
 Select the top two most-viewed movies in each city.
 
 ```
+select 
+    city_id,
+    city,
+    film_id,
+    title,
+    views
 from (
     select 
         c.city_id,
