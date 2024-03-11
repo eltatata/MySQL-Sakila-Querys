@@ -164,33 +164,34 @@ group by c.customer_id, c.first_name, c.last_name, c.email;
 Select the top 3 customers from each store based on the number of rentals made. Utilize the Rank, Dense_Rank, and Row_Number functions, and create an additional boolean field indicating records where these three functions return the same value (0) and records where these three functions do not return the same value (1).
 
 ```
-select
-    store_id,
-    customer_id,
-    rentals,
-    rank() over (partition by store_id order by rentals desc) as rank_val,
-    dense_rank() over (partition by store_id order by rentals desc) as dense_rank_val,
-    row_number() over (partition by store_id order by rentals desc) as row_num_val,
-    case
-        when rank() over (partition by store_id order by rentals desc) = dense_rank() over (partition by store_id order by rentals desc)
-            and dense_rank() over (partition by store_id order by rentals desc) = row_number() over (partition by store_id order by rentals desc)
-            then 0
-        else 1
-    end as same_value
-from (
+with ranked as (
     select
-        s.store_id,
-        r.customer_id,
-        count(r.rental_id) as rentals
-    from
-        rental r
-    join
+        c.customer_id,
+        i.store_id,
+        count(r.rental_id) as rental_count,
+        rank() over (partition by i.store_id order by count(r.rental_id) desc) as rank_value,
+        dense_rank() over (partition by i.store_id order by count(r.rental_id) desc) as dense_rank_value,
+        row_number() over (partition by i.store_id order by count(r.rental_id) desc) as row_num
+    from 
+        customer c
+    join 
+        rental r on c.customer_id = r.customer_id
+    join 
         inventory i on r.inventory_id = i.inventory_id
-    join
-        store s on i.store_id = s.store_id
-    group by
-        s.store_id,
-        r.customer_id
-) as rental_counts;
+    group by 
+        c.customer_id, 
+        i.store_id
+)
+select 
+    *,
+    case
+        when rank_value = dense_rank_value and dense_rank_value = row_num then 0
+        else 1
+    end as same_rank
+from 
+    ranked
+where 
+    rank_value <= 3;
 ```
-![Screenshot (228)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/3a09bdf9-ca8b-4c20-a8b8-c34fa7c69559)
+![Screenshot (230)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/49c11841-8d5d-4ad9-89a8-4f3ed41507c6)
+
