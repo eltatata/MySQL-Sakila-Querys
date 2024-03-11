@@ -133,7 +133,6 @@ from (
 where row_num <= 2
 order by views desc;
 ```
-![Screenshot (219)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/8a10ef4f-5021-48e0-a588-6ef87c4760c3)
 ![Screenshot (226)](https://github.com/eltatata/MySQL-Sakila-Querys/assets/91573911/e7e5f27a-6ff1-480c-8714-d6e1ec1ea03b)
 
 
